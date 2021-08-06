@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+/**
+ * @author LuoTianxu
+ */
 @Data
 @Accessors(chain = true)
 @ApiModel("提交密码修改请求参数")

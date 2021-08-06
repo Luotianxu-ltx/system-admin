@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-// 远程调用mengxuegu-blog-system微服务中的接口
+/**
+ * 远程调用system-admin微服务中的接口
+ * @author LuoTianxu
+ */
 @FeignClient(value = "system-server", path = "/system")
 public interface IFeignSystemController {
 

@@ -9,6 +9,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author LuoTianxu
+ */
 @Api(value = "用户管理接口", description = "用户管理接口，不需要身份认证就可以调用下面接口")
 @RestController
 @RequestMapping("/api/user")
