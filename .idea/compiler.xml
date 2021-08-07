@@ -11,6 +11,7 @@
         <module name="system-api" />
         <module name="system-generator" />
         <module name="system-util" />
+        <module name="system-oauth2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,10 +20,12 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="system-admin" options="-parameters" />
       <module name="system-api" options="-parameters" />
       <module name="system-generator" options="-parameters" />
       <module name="system-manage" options="-parameters" />
       <module name="system-management" options="-parameters" />
+      <module name="system-oauth2" options="-parameters" />
       <module name="system-util" options="-parameters" />
     </option>
   </component>

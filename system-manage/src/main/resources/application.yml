@@ -14,7 +14,7 @@
 #  # 数据源配置
 #  datasource:
 #    username: root
-#    password: 123456
+#    password: '@Ltx444444444'
 #    url: jdbc:mysql://127.0.0.1:3306/system_admin?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
 #    #mysql8版本以上驱动包指定新的驱动类
 #    driver-class-name: com.mysql.cj.jdbc.Driver

@@ -12,6 +12,7 @@
         <module>system-api</module>
         <module>system-manage</module>
         <module>system-generator</module>
+        <module>system-oauth2</module>
     </modules>
     <packaging>pom</packaging>
 
