@@ -20,7 +20,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="system-admin" options="-parameters" />
+      <module name="system-admin" options="" />
       <module name="system-api" options="-parameters" />
       <module name="system-generator" options="-parameters" />
       <module name="system-manage" options="-parameters" />

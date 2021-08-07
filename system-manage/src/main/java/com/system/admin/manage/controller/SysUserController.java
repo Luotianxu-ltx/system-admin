@@ -6,13 +6,15 @@ import com.system.admin.manage.req.SysUserCheckPasswordREQ;
 import com.system.admin.manage.req.SysUserREQ;
 import com.system.admin.manage.req.SysUserUpdatePasswordREQ;
 import com.system.admin.manage.service.ISysUserService;
+import com.system.admin.oauth2.config.AuthUtil;
 import com.system.admin.util.base.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,10 +41,22 @@ public class SysUserController {
         return sysUserService.queryPage(req);
     }
 
+    // 在请求方法之前会校验用户是否有权限，如果有则可以调用到此方法
+//    @PreAuthorize("hasAuthority('carticle:search')")
     @ApiImplicitParam(name = "id", value = "用户Id", required = true)
     @ApiOperation("根据用户id查询所拥有的角色ids接口")
     @GetMapping("/{id}/role/ids")
     public Result findRoleIdsById(@PathVariable("id") String id) {
+
+        // 获取认证信息对象
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();
+//        Map<String, Object> map = (Map<String, Object>) details.getDecodedDetails();
+//        Map<String, Object>  userInfo = (Map<String, Object>) map.get("userInfo");
+//        userInfo.get("uid");
+        SysUser userInfo = AuthUtil.getUserInfo();
+
+
         return sysUserService.findRoleIdsById(id);
     }
 
