@@ -1,0 +1,50 @@
+#server:
+#  port: 6001
+#
+#spring:
+#  application:
+#    name: system-gateway # 应用名
+#    redis:
+#      host: localhost
+#      port: 6379
+#      password:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848 # 注册中心地址
+#    gateway:
+#      discovery:
+#        locator:
+#          # true 开启使用服务名称调用目标服务
+#          enabled: true
+#      routes:
+#        - id: system-admin
+#          uri: lb://system-server
+#          predicates:
+#            - Path=/system/**
+#          filters:
+#          # 开启限流 RequestRateLimiter ，名字不可随便写
+#            - name: RequestRateLimiter
+#              args:
+#                # 限流过滤器的 Bean 名称
+#                key-resolver: "#{@uriKeyResolver}"
+#                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率。
+#                redis-rate-limiter.replenishRate: 2
+#                # 允许用户在一秒钟内完成的最大请求数。 这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+#                redis-rate-limiter.burstCapacity: 4
+#                #允许突发4个请求，但是在下一秒中，仅2个请求可用
+#        - id: auth-server
+#          uri: lb://auth-server
+#          predicates:
+#            - Path=/auth/**
+#          filters:
+#            # 开启限流 RequestRateLimiter ，名字不可随便写
+#            - name: RequestRateLimiter
+#              args:
+#                # 限流过滤器的 Bean 名称
+#                key-resolver: "#{@uriKeyResolver}"
+#                # 希望允许用户每秒执行多少个请求。令牌桶填充的速率。
+#                redis-rate-limiter.replenishRate: 2
+#                # 允许用户在一秒钟内完成的最大请求数。 这是令牌桶可以容纳的令牌数量，将此值设置为零将阻止所有请求
+#                redis-rate-limiter.burstCapacity: 4
+#                #允许突发4个请求，但是在下一秒中，仅2个请求可用

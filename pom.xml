@@ -13,6 +13,7 @@
         <module>system-manage</module>
         <module>system-generator</module>
         <module>system-oauth2</module>
+        <module>system-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
