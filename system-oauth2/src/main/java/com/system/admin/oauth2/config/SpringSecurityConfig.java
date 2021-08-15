@@ -47,6 +47,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // 关闭csrf攻击
         http.formLogin()
                 // 成功处理器
+                .usernameParameter("username")
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
             .and()
