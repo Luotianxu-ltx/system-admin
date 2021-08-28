@@ -34,17 +34,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Result queryPage(SysUserREQ req) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
 
-        if(StringUtils.isNotEmpty(req.getUsername())) {
+        if (StringUtils.isNotEmpty(req.getUsername())) {
             wrapper.like("username", req.getUsername());
         }
 
-        if(StringUtils.isNotEmpty(req.getMobile())) {
+        if (StringUtils.isNotEmpty(req.getMobile())) {
             wrapper.like("mobile", req.getMobile());
         }
 
         wrapper.orderByDesc("update_date");
 
-        return Result.ok( baseMapper.selectPage(req.getPage(), wrapper) );
+        return Result.ok(baseMapper.selectPage(req.getPage(), wrapper));
     }
 
     @Override
@@ -53,13 +53,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return Result.ok(roleIds);
     }
 
-    @Transactional // 事务管理
+    @Transactional
     @Override
     public Result saveUserRole(String userId, List<String> roleIds) {
         // 1. 删除用户角色关系表数据
         baseMapper.deleteUserRoleByUserId(userId);
         // 2. 保存新的用户角色关系表数据
-        if(CollectionUtils.isNotEmpty(roleIds)) {
+        if (CollectionUtils.isNotEmpty(roleIds)) {
             baseMapper.saveUserRole(userId, roleIds);
         }
         return Result.ok();
@@ -69,7 +69,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Result deleteById(String id) {
         // 1. 先查询当前用户是否存在，
         SysUser sysUser = baseMapper.selectById(id);
-        if(sysUser == null) {
+        if (sysUser == null) {
             return Result.error("用户不存在，删除失败");
         }
         // 2. 如果存在再进行删除
@@ -84,21 +84,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Result checkPassword(SysUserCheckPasswordREQ req) {
-        if(StringUtils.isEmpty(req.getUserId())) {
+        if (StringUtils.isEmpty(req.getUserId())) {
             return Result.error("用户ID不能为空，请重试");
         }
 
-        if(StringUtils.isEmpty(req.getOldPassword())) {
+        if (StringUtils.isEmpty(req.getOldPassword())) {
             return Result.error("原密码不能为空，请重试");
         }
 
         SysUser sysUser = baseMapper.selectById(req.getUserId());
-        if(sysUser == null) {
+        if (sysUser == null) {
             return Result.error("用户不存在，请重试");
         }
         // matches 方法中参数1：用户输入的密码（明文），参数2: 是数据库中密码（密文）
-        boolean isOk = passwordEncoder.matches( req.getOldPassword(), sysUser.getPassword() );
-        if( !isOk ) {
+        boolean isOk = passwordEncoder.matches(req.getOldPassword(), sysUser.getPassword());
+        if (!isOk) {
             return Result.error("原密码输入错误");
         }
 
@@ -107,33 +107,33 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Result updatePassword(SysUserUpdatePasswordREQ req) {
-        if(StringUtils.isEmpty(req.getUserId())) {
+        if (StringUtils.isEmpty(req.getUserId())) {
             return Result.error("用户ID不能为空，请重试");
         }
-        if(StringUtils.isEmpty(req.getNewPassword())) {
+        if (StringUtils.isEmpty(req.getNewPassword())) {
             return Result.error("新密码不能为空，请重试");
         }
-        if(StringUtils.isEmpty(req.getRepPassword())) {
+        if (StringUtils.isEmpty(req.getRepPassword())) {
             return Result.error("确认密码不能为空，请重试");
         }
-        if( !req.getNewPassword().equals( req.getRepPassword() )) {
+        if (!req.getNewPassword().equals(req.getRepPassword())) {
             return Result.error("新密码与确认密码不一致，请重试");
         }
 
         SysUser sysUser = baseMapper.selectById(req.getUserId());
-        if(sysUser == null) {
+        if (sysUser == null) {
             return Result.error("用户不存在，请重试");
         }
 
         // 如果有原密码，则校验是否正确
-        if(StringUtils.isNotEmpty(req.getOldPassword())) {
-            if( !passwordEncoder.matches( req.getOldPassword(), sysUser.getPassword() ) ) {
+        if (StringUtils.isNotEmpty(req.getOldPassword())) {
+            if (!passwordEncoder.matches(req.getOldPassword(), sysUser.getPassword())) {
                 return Result.error("原密码输入错误");
             }
         }
 
         // 校验都通过，将新密码进行加密存储
-        sysUser.setPassword( passwordEncoder.encode(req.getNewPassword()) );
+        sysUser.setPassword(passwordEncoder.encode(req.getNewPassword()));
         sysUser.setPwdUpdateDate(new Date());
         baseMapper.updateById(sysUser);
 
@@ -162,39 +162,39 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         wrapper.eq("username", username);
         SysUser sysUser = baseMapper.selectOne(wrapper);
         // 查询到则存在，存在 data=true 已被注册，不存在 data=false 未被注册
-        return Result.ok( sysUser == null ? false : true );
+        return Result.ok(sysUser == null ? false : true);
     }
 
     @Override
     public Result register(RegisterREQ req) {
-        if(StringUtils.isEmpty( req.getUsername() )) {
+        if (StringUtils.isEmpty(req.getUsername())) {
             return Result.error("用户名不能为空");
         }
 
-        if(StringUtils.isEmpty( req.getPassword() )) {
+        if (StringUtils.isEmpty(req.getPassword())) {
             return Result.error("密码不能为空");
         }
 
-        if(StringUtils.isEmpty( req.getRepPassword() )) {
+        if (StringUtils.isEmpty(req.getRepPassword())) {
             return Result.error("确认密码不能为空");
         }
 
-        if( !StringUtils.equals(req.getPassword(), req.getRepPassword())) {
+        if (!StringUtils.equals(req.getPassword(), req.getRepPassword())) {
             return Result.error("两次输入的密码不一致");
         }
 
         // 校验用户名是否存在
         Result result = checkUsername(req.getUsername());
         // 存在 data=true 已被注册，不存在 data=false 未被注册
-        if( (Boolean) result.getData() ) {
+        if ((Boolean) result.getData()) {
             return Result.error("用户名已经被注册，请更换一个用户名");
         }
 
         // 将新用户信息保存到数据库
         SysUser sysUser = new SysUser();
-        sysUser.setUsername( req.getUsername() );
-        sysUser.setNickName( req.getUsername() );
-        sysUser.setPassword( passwordEncoder.encode( req.getPassword() ) );
+        sysUser.setUsername(req.getUsername());
+        sysUser.setNickName(req.getUsername());
+        sysUser.setPassword(passwordEncoder.encode(req.getPassword()));
         // 新增操作
         this.save(sysUser);
         return Result.ok();
