@@ -36,4 +36,11 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return
      */
     boolean saveRoleMenu(@Param("roleId") String roleId,@Param("menuIds") List<String> menuIds);
+
+    /**
+     * 根据用户id查询用户角色
+     * @param userId
+     * @return
+     */
+    List<SysRole> getRoleByUserId(@Param("userId") String userId);
 }

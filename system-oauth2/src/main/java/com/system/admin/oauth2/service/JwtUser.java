@@ -53,6 +53,8 @@ public class JwtUser implements UserDetails {
     @ApiModelProperty(value = "帐户是否可用(1 可用，0 删除用户)")
     private  boolean isEnabled;
 
+    private List<String> roles;
+
     /**
      * 封装用户拥有的菜单权限标识
      */
@@ -64,7 +66,7 @@ public class JwtUser implements UserDetails {
                    String nickName, String imageUrl, String mobile, String email,
                    Integer isAccountNonExpired, Integer isAccountNonLocked,
                    Integer isCredentialsNonExpired, Integer isEnabled,
-                   List<GrantedAuthority> authorities) {
+                   List<GrantedAuthority> authorities,List<String> roles) {
         this.uid = uid;
         this.username = username;
         this.password = password;
@@ -77,6 +79,7 @@ public class JwtUser implements UserDetails {
         this.isCredentialsNonExpired = isCredentialsNonExpired == 1 ? true: false;
         this.isEnabled = isEnabled == 1 ? true: false;
         this.authorities = authorities;
+        this.roles = roles;
     }
 
 }

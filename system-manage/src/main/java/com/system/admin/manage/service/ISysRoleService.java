@@ -40,4 +40,11 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param menuIds 菜单id集合
      */
     Result saveRoleMenu(String roleId, List<String> menuIds);
+
+    /**
+     * 根据用户id查询用户角色
+     * @param id
+     * @return
+     */
+    List<SysRole> findRoleById(String id);
 }

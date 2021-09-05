@@ -1,6 +1,7 @@
 package com.system.admin.feign;
 
 import com.system.admin.entities.SysMenu;
+import com.system.admin.entities.SysRole;
 import com.system.admin.entities.SysUser;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -26,4 +27,7 @@ public interface IFeignSystemController {
     @ApiOperation("Feign接口-通过用户ID查询拥有权限")
     @GetMapping("/api/feign/menu/{userId}")
     List<SysMenu> findMenuListByUserId(@PathVariable("userId") String userId);
+
+    @GetMapping("/api/feign/userRole/{userId}")
+    List<SysRole> findRoleByUserId(@PathVariable("userId") String userId);
 }

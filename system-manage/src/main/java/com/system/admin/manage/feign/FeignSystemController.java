@@ -1,9 +1,11 @@
 package com.system.admin.manage.feign;
 
 import com.system.admin.entities.SysMenu;
+import com.system.admin.entities.SysRole;
 import com.system.admin.entities.SysUser;
 import com.system.admin.feign.IFeignSystemController;
 import com.system.admin.manage.service.ISysMenuService;
+import com.system.admin.manage.service.ISysRoleService;
 import com.system.admin.manage.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,9 @@ public class FeignSystemController implements IFeignSystemController {
 
     @Autowired
     private ISysMenuService sysMenuService;
+
+    @Autowired
+    private ISysRoleService sysRoleService;
 
     /**
      * 通过用户名查询用户信息
@@ -40,5 +45,15 @@ public class FeignSystemController implements IFeignSystemController {
     @Override
     public List<SysMenu> findMenuListByUserId(String userId) {
         return sysMenuService.findByUserId(userId);
+    }
+
+    /**
+     * 根据用户ID查询用户角色
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SysRole> findRoleByUserId(String userId) {
+        return sysRoleService.findRoleById(userId);
     }
 }

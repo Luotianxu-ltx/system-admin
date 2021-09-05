@@ -2,6 +2,7 @@ package com.system.admin.manage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.system.admin.entities.SysRole;
 import com.system.admin.entities.SysUser;
 import com.system.admin.manage.mapper.SysUserMapper;
 import com.system.admin.manage.req.RegisterREQ;
@@ -17,8 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -72,8 +72,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (sysUser == null) {
             return Result.error("用户不存在，删除失败");
         }
-        // 2. 如果存在再进行删除
-        sysUser.setIsEnabled(0); // 0 删除，1可用
+        // 2. 如果存在再进行删除 0 删除，1可用
+        sysUser.setIsEnabled(0);
         sysUser.setUpdateDate(new Date());
         baseMapper.updateById(sysUser);
         return Result.ok();

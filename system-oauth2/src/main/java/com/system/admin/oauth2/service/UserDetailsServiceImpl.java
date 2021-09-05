@@ -1,6 +1,7 @@
 package com.system.admin.oauth2.service;
 
 import com.system.admin.entities.SysMenu;
+import com.system.admin.entities.SysRole;
 import com.system.admin.entities.SysUser;
 import com.system.admin.feign.IFeignSystemController;
 import org.apache.commons.collections.CollectionUtils;
@@ -39,8 +40,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         // 3. 通过用户id去查询数据库的拥有的权限信息
-        List<SysMenu> menuList =
-                feignSystemController.findMenuListByUserId(sysUser.getId());
+        List<SysMenu> menuList = feignSystemController.findMenuListByUserId(sysUser.getId());
+        List<SysRole> role = feignSystemController.findRoleByUserId(sysUser.getId());
+        ArrayList<String> roles = new ArrayList<>();
+        for (SysRole sysRole : role) {
+            roles.add(sysRole.getName());
+        }
 
         // 4. 封装权限信息（权限标识符code）
         List<GrantedAuthority> authorities = null;
@@ -58,7 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 sysUser.getNickName(), sysUser.getImageUrl(), sysUser.getMobile(), sysUser.getEmail(),
                 sysUser.getIsAccountNonExpired(), sysUser.getIsAccountNonLocked(),
                 sysUser.getIsCredentialsNonExpired(), sysUser.getIsEnabled(),
-                authorities );
+                authorities,roles);
 
         return jwtUser;
     }
